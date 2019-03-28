@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<style>
+    label {
+        MARGTIN-bottom: 10px;
+        MARGIN-top: 10px;
+    }
+
+    input {
+
+    }
+
+    .c1 div {
+        float: left;
+    }
+</style>
+
+    <link href="Font-Awesome-3.2.1/css/font-awesome.min.css" rel="stylesheet"/>
+    <div th:include="include/header::bootstrap"></div>
+    <script type="text/javascript" th:src="@{/release/wangEditor.js}"></script>
+<div style="width:75%;margin: 0px auto;">
+    <form th:action="@{/email/send}" method="post" id="form">
+        <label> 主题 </label><input type="text" class="form-control" style="width:40%;" name="subject">
+        <label> 收件人
+
+
+        </label>
+        <div style="display: inline;" id="receiver">
+        </div>
+        <div>
+            <div style="width: 40%;">
+                <div class="input-group">
+                    <input type="text" class="form-control" style="" id="rec">
+                    <span class="input-group-btn">
+            <button type="button" class="btn btn-default " id="add">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true">
+                </span>
+            </button>
+            </span>
+                </div>
+            </div>
+
+            <input type="hidden" name="content" id="content"></div>
+        <div style="height: 60px;"></div>
+        <div id="editor" class="text">
+
+        </div>
+        <div class="c1">
+            <div style="width:50%;">
+                <input type="submit" class="btn btn-block btn-danger">
+            </div>
+            <div style="width:50%;">
+                <a href="#" th:href="@{/homePage}">
+                    <button class="btn btn-block btn-primary" type="button">返回</button>
+                </a>
+            </div>
+        </div>
+    </form>
+    <span id="msg" th:text = "${msg}" style="display: none"></span>
+</div>
+
+
+</body>
+<script type="text/javascript">
+   if($("#msg").html() == "error_postbox"){
+       alert("邮箱不存在或发送方邮箱错误");
+   }
+   if($("#msg").html() == "same_postbox"){
+       alert("邮箱重复");
+   }
+   if($("#msg").html() == "no_postbox"){
+       alert("请输入目标邮箱");
+   }
+    var E = window.wangEditor
+    var editor = new E('#editor')
+    // 或者 var editor = new E( document.getElementById('editor') )
+    editor.create()
+    $(function () {
+        $("#add").click(function () {
+            var y = $("#rec");
+            var x = $("#receiver");
+            var html = x.html();
+            html += "<button type=\"button\" class=\"btn btn-default del \">\n" +
+                "                <span  class=\"glyphicon glyphicon-remove\"></span> <span>" + y.val() + "</span>\n" +
+                "        </button><input type='hidden' value='" + y.val() + "' name='receiveemail'>";
+            x.html(html);
+            y.val("");
+            $(".del").click(function () {
+                $(this).remove();
+            });
+
+        });
+
+        $("#form").submit(function () {
+$("#content").val(editor.txt.html());
+        });
+
+    });
+
+</script>
+</html>

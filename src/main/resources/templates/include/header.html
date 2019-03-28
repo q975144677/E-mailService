@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="bootstrap">
+    <script th:src="@{/bootstrap/jquery/2.0.0/jquery.min.js}" ></script>
+    <link th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet" ></link>
+    <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+    <div th:include = "include/top::top"></div>
+</div>
+</body>
+</html>

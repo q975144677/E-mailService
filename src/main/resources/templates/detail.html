@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <div th:include="/include/header::bootstrap"></div><div>
+
+
+</div>
+    <div class="panel panel-default">
+        <div class="panel-heading">邮件内容</div>
+        <div class="panel-body">
+            <div th:utext = "${email.content}"></div>
+        </div>
+    </div>
+
+</body>
+</html>

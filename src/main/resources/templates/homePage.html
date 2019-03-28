@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body> <style>
+    #form .input-group {
+        margin-top:30px;
+        margin-bottom:30px;
+    }
+
+</style>
+<div th:include="/include/header::bootstrap"></div>
+<!--
+<div>
+    <a th:if = "!${session.user}" th:href="@{/account/login}">登录</a>
+    <a th:if = "!${session.user}" th:href="@{/account/register}">注册</a>
+   <span th:if = "${session.user}">
+       <a th:href="@{/my/{username}(username = ${session.user.username})}"
+                                       th:text = "${session.user}">
+
+       </a>
+   </span>
+    <a th:href="@{/logout}" th:if = "${session.user}">退出</a>
+    <span th:if = "${session.user}">
+    <a th:href="@{/email/send}">邮件管理</a>
+    <a href="#" th:href="@{/email/post/{username}(username = ${session.user.username})}">邮件列表</a>
+    </span>
+
+
+</div>
+-->
+
+<div style="padding: 30px;">
+
+    <div class="page-header">
+        <h1><i class="glyphicon glyphicon-envelope" style="margin-right: 10px;position: relative;top: -5px;">
+
+        </i>黄黄黄 <small>EmailSender</small> </h1>
+    </div>
+
+    <h1> <span th:if = "${session.user}">Welcome~<span th:text="${session.user.name}" style="position: relative;left: 12%;"></span>
+   </span> </h1><div th:if = "!${session.user}"  style="width:30%;float: left;overflow: hidden">
+
+    <div class="panel panel-default" style="margin-left: 7%;margin-top: 4%;">
+
+        <div class="panel-body">
+            <div id="form">
+                <form th:action="@{/account/register}" method="post" >
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon" id="sizing-addon1"><i class="glyphicon glyphicon-user"></i></span>
+                        <input type="text" name="username" id="username" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+                    </div>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon" id="sizing-addon2"><i id="ss" class=" glyphicon glyphicon-menu-right"></i></span>
+                        <input type="text" name="name" class="form-control" placeholder="Name" aria-describedby="sizing-addon1">
+                    </div>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon" id="sizing-addon3"><i id="ss2" class="glyphicon glyphicon-record"></i></span>
+                        <input type="password" name="password" id="p1" class="form-control pass" placeholder="Password" aria-describedby="sizing-addon1">
+                    </div>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon" id="sizing-addon4"><i id="ss3" class="glyphicon glyphicon-record"></i></span>
+                        <input type="password" name="p2" class="form-control pass" id="p2" placeholder="Repeat The Password  " aria-describedby="sizing-addon1">
+                    </div>
+
+                    <button type="submit" id="sub" class="btn btn-default btn-lg">
+                        <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Sign Up Now！
+                    </button>
+                    <span id="msg" style="color: red;"></span>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    </div>
+    <div class="jumbotron" style="position: absolute;top:24%;left:40%;width:40%;height: 40%;border-radius:5px;padding: 30px;">
+        <h1>Hello, Sender!</h1>
+        <p>This is a simple Sender.</p>
+        <p style="position: absolute;bottom: 30px;left: 30px"><a class="btn btn-primary btn-lg" th:href="@{/help}" role="button">Learn more</a></p>
+    </div>
+</div>
+</body>
+<script>
+    $(function () {
+//username_check
+        flag2 = false;
+        var password = $(".pass");
+        var username = $("#username");
+        $(username).change(function () {
+
+            $.post(
+                "/email/username_check",
+                {"username":username.val()},
+                function (result) {
+                    if (result == "fail"){
+                        flag2 = false;
+                        v();
+                        $("#msg").html("用户名已经被使用");
+                    }else{
+                        flag2 = true;
+                        v();
+                        $("#msg").html("");
+                    }
+                }
+
+            );
+
+
+        });
+        function vd() {
+            var p1 = $("#p1");
+            var p2 = $("#p2");
+            return (p1.val() == p2.val());
+
+        }
+
+        function v()  {
+            if (vd()&flag2){
+                $("#sub").prop("disabled", false);
+            }else{
+                $("#sub").prop("disabled", true);
+            }
+        }
+        password.change(function () {
+
+
+            var flag = vd();
+
+            if (flag) {
+                v();
+                $("#msg").html("");
+            }
+            else {
+                v();
+                $("#msg").html("两次密码输入不一致");
+            }
+        });
+
+    });
+
+</script>
+</html>

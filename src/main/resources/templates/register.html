@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<style>
+    #form .input-group {
+        margin-top:40px;
+        margin-bottom:40px;
+    }
+
+</style>
+<body><div th:include="/include/header::bootstrap"></div>
+<!--
+<div>
+    <form action="register" method="post" >
+        <input type="text" name="username">
+        <input type="password" name="password" >
+        <input type="text" name="name" >
+        <input type="submit"></form>
+    
+</div>
+-->
+<div style="width:70%;margin: 0px auto" id="form">
+    <form action="register" method="post" >
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon" id="sizing-addon1"><i class="glyphicon glyphicon-user"></i></span>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+        </div>
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon" id="sizing-addon2"><i id="ss" class=" glyphicon glyphicon-menu-right"></i></span>
+            <input type="text" name="name" class="form-control" placeholder="Name" aria-describedby="sizing-addon1">
+        </div>
+        <div class="input-group input-group-lg">
+
+            <span class="input-group-addon" id="sizing-addon3"><i id="ss2" class="glyphicon glyphicon-record"></i></span>
+            <input type="password" name="password" id="p1" class="form-control pass" placeholder="Password" aria-describedby="sizing-addon1">
+        </div>
+        <div class="input-group input-group-lg">
+
+            <span class="input-group-addon" id="sizing-addon4"><i id="ss3" class="glyphicon glyphicon-record"></i></span>
+            <input type="password" name="p2" class="form-control pass" id="p2" placeholder="Repeat The Password  " aria-describedby="sizing-addon1">
+        </div>
+
+        <button type="submit" class="btn btn-default btn-lg" id="sub">
+            <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Go!
+        </button>
+
+        <span class="" id="msg" ></span>
+    </form>
+</div>
+
+
+</body>
+<script>
+$(function () {
+//username_check
+  flag2 = false;
+    var password = $(".pass");
+    var username = $("#username");
+    $(username).change(function () {
+
+        $.post(
+            "/email/username_check",
+            {"username":username.val()},
+        function (result) {
+            if (result == "fail"){
+                flag2 = false;
+                v();
+                $("#msg").html("用户名已经被使用");
+            }else{
+                flag2 = true;
+                v();
+                $("#msg").html("");
+            }
+        }
+
+        );
+
+
+    });
+    function vd() {
+        var p1 = $("#p1");
+        var p2 = $("#p2");
+        return p1.val() == p2.val();
+
+    }
+
+    function v()  {
+        if (vd()&flag2){
+            $("#sub").prop("disabled", false);
+        }else{
+            $("#sub").prop("disabled", true);
+        }
+    }
+    password.change(function () {
+
+
+        var flag = vd();
+
+        if (flag) {
+           v();
+            $("#msg").html("");
+        }
+        else {
+            v();
+            $("#msg").html("两次密码输入不一致");
+        }
+    });
+
+});
+
+</script>
+</html>

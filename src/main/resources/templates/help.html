@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:include="/include/header::bootstrap"></div>
+<div>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+<script th:src="@{/layui/layui.js}"></script>
+    <style>
+        p{
+            padding:1%;
+        }
+
+    </style>
+<ul class="layui-timeline" style="margin-left: 10%;">
+    <li class="layui-timeline-item">
+        <i class="layui-icon layui-timeline-axis"></i>
+        <div class="layui-timeline-content layui-text">
+            <h1 class="layui-timeline-title">第一步</h1>
+            <p>
+            <h2>将邮箱（163或者qq）开启smtp 功能得到授权码</h2>
+            </p>
+        </div>
+    </li>
+    <li class="layui-timeline-item">
+        <i class="layui-icon layui-timeline-axis"></i>
+        <div class="layui-timeline-content layui-text">
+            <h1 class="layui-timeline-title">第二步</h1>
+            <p><h2>在网站中根据授权码绑定对应邮箱</h2></p>
+        </div>
+    </li>
+    <li class="layui-timeline-item">
+        <i class="layui-icon layui-timeline-axis"></i>
+        <div class="layui-timeline-content layui-text">
+            <h1 class="layui-timeline-title">第三步</h1>
+            <p>
+            <h2> 可以开始发送邮件了！</h2>
+            </p>
+        </div>
+    </li>
+    <li class="layui-timeline-item">
+        <i class="layui-icon layui-timeline-axis"></i>
+        <div class="layui-timeline-content layui-text">
+            <div class="layui-timeline-title">...</div>
+        </div>
+    </li>
+</ul>
+
+</div>
+</body>
+</html>

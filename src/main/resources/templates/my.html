@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<style>
+    .form-control {
+        padding-left: 14px !important;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    #inline div {
+        display: inline-block;
+        font-size: 20px;
+        margin-left:40px;
+    }
+#inline span{
+    font-size: 20px;
+}
+
+</style>
+<div>
+    <div th:include="include/header::bootstrap"></div>
+
+
+    <div class="jumbotron" style="width: 93%;margin: 0px auto;padding: 40px;">
+        <h1>Hello,<span th:text="${session.user.username}"></span>!</h1>
+        <p>...</p>
+
+        <div id="inline">
+            <table>
+                <tr>
+                    <td><span>您的</span><span>用户Id为</span></td>
+                    <td>
+                        <div th:text="${session.user.id}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span>您的</span><span>用户名为</span></td>
+                    <td>
+                        <div th:text="${session.user.name}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span>您的</span><span>用户账号为</span></td>
+                    <td>
+                        <div th:text="${session.user.username}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span>您的</span><span>密码为</span></td>
+                    <td>
+                        <div th:text="${session.user.password}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span>您的</span> <span>邮箱为</span></td>
+                    <td>
+                        <div th:text="${session.user.postbox}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span>您的</span> <span>授权码为</span></td>
+                    <td>
+                        <div th:text="${session.user.postPassword}"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        </table>
+        <p></p>
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <div class="btn-group" role="group">
+                <a class="btn btn-primary btn-lg" href="#" role="button" data-toggle="modal" data-target="#myModal2">
+                    密码修改
+                </a>
+            </div>
+            <div class="btn-group" role="group">
+                <a href="#">
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                        邮箱绑定
+                    </button>
+                </a>
+            </div>
+            <div class="btn-group" role="group">
+                <a class="btn btn-primary btn-lg" href="#" role="button" data-toggle="modal" data-target="#myModal3">
+                    头像设置
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span
+                            class="sr-only">Close</span></button>
+                    <h4 class="modal-title">邮箱绑定</h4>
+                </div>
+                <div class="modal-body">
+                    <p>请在下面 输入你的邮箱以及授权码</p>
+                    <form th:action="@{/my/{username}(username = ${session.user.username})}" method="post" id="postbox">
+                        <label class="label label-primary" for="postbox">邮箱</label><input class="form-control input-lg"
+                                                                                          type="text" placeholder="邮箱"
+                                                                                          name="postbox" id="post">
+                        <label class="label label-primary" for="postPassword">授权码</label> <input type="text"
+                                                                                                 class="form-control input-lg"
+                                                                                                 placeholder="授权码"
+                                                                                                 name="postPassword">
+                        <input type="hidden" name="_method" value="put">
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default" type="button">关闭</button>
+                    <button class="btn btn-primary">提交</button>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span
+                            class="sr-only">Close</span></button>
+                    <h4 class="modal-title">密码修改</h4>
+                </div>
+                <div class="modal-body">
+                    <p>请在下面 输入你的修改的密码</p>
+                    <form th:action="@{/my/{username}(username = ${session.user.username})}" method="post">
+                        <label class="label label-primary" style="margin-right: 10px;">密码</label>
+                        <span id="msg" style="color:red;"></span>
+                        <input class="form-control input-lg pass"
+                               type="password" name="password" id="p1">
+                        <label class="label label-primary">请再次输入</label> <input type="password"
+                                                                                class="form-control input-lg pass"
+                                                                                id="p2">
+                        <input type="hidden" th:value="${session.user.username}" name="username"></input>
+
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default" type="button">关闭</button>
+                    <button class="btn btn-primary" disabled="true" id="sub">提交</button>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+
+</body>
+<script>
+    $(function () {
+        $("#postbox").submit(function () {
+            var email = $("#post").val();
+            var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+            if (!reg.test(email)) {
+                alert("邮箱格式不正确");
+                return false;
+            }
+
+        })
+
+        var password = $(".pass");
+
+        function vd() {
+            var p1 = $("#p1");
+            var p2 = $("#p2");
+            return p1.val() == p2.val();
+
+        }
+
+        password.change(function () {
+
+
+            var flag = vd();
+
+            if (flag) {
+                $("#sub").prop("disabled", false);
+                $("#msg").html("");
+            }
+            else {
+                $("#sub").prop("disabled", true);
+                $("#msg").html("两次密码输入不一致");
+            }
+        });
+
+    });
+
+</script>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<style>
+
+
+</style>
+<div th:include="/include/header::bootstrap"></div><div>
+
+    <div class="page-header" style="padding-left: 60px ;" th:if = "${msg}">
+       <h2> <div><i class="glyphicon glyphicon-warning-sign"></i>
+            <span th:text="${msg}"></span>
+        </div></h2>
+    </div>
+
+    <div class="panel panel-default" th:each = "email:${emails}">
+        <a th:href="@{/email/detail/{emailId}(emailId = ${email.id})}" style="text-decoration: none;">
+        <div class="panel-body">
+         <i class="glyphicon glyphicon-envelope"></i>   <span   th:text = "${email.subject} "></span>
+
+        </div>
+        </a>
+    </div>
+    <div style="width: 20%;margin: 0px auto;">
+    <ul class="pagination">
+        <li>
+            <a th:href="@{/email/post/{username}(username = ${session.user.username} , page = 1)}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+
+        <li th:each = "page:${pages}" ><a th:href="@{/email/post/{username}(username = ${session.user.username} , page = ${page})}" th:text = "${page}"></a></li>
+        <li>
+            <a th:href="@{/email/post/{username}(username = ${session.user.username} , page = ${pageinfo.pages})}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</div>
+</div>
+</body>
+</html>
